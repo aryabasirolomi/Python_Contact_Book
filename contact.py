@@ -27,33 +27,23 @@ class ContactBook():
         
         """
     
-    def pull_contact(self):
-        """Yinka
-        Fine one specific contact
-        Enter name of desired contact, then 
-        
-        Example of code:
-            for cantact in contact.txt
-                if user_input == contact
-                    return contact
+    def pull_contact(filenamme):
+        """Reads in file and return specific contact to be updated
+        Args: 
+            filename(str): path to a file containing current contacts
+        Returns:
+            contact(list): returns contact name with name, number, email, and zipcode to be update
         """
         
         
-    def update_contact(self, contact):
-        """Yinka
-        This method updates a previously existing contact. 
-        
+    def update_contact(contact):
+        """ Updates a previously existing contact selected in pull_contact function
         Args:
-            contact(list): the output of the pull_contact method
-        
+            contact(list): the output of the pull_contact method containing the name, number, email, and zipcode to be updated
+        Side Effects:
+            Updates attributes "name", "number", and "email" depending on user input
         Raises:
-            ValueError if you are updating a contact that doesn't exist.
-            
-        Example of possible input:
-            Arya, 240-354-2848, aryabasir2001@hotmail.com, 20855)
-            
-        Ideas:
-            use regex to find #
+            ValueError: ValueError raises if contact does not exist
         """
     
     
