@@ -20,14 +20,19 @@ class ContactBook():
         """
         pass
     
-    def deleted_contacts(self):
-        """Joshua
-        Everything that gets deleted gets stored in here
-        But only the 5 more recent deleted contacts are stored here, 
+    def deleted_contacts(self, contact_book):
+        """Takes an existing contact list and deletes a specified contact
+            from that list. Holds the five most recent deleted contacts.
+        
+        Args:
+            contact_book(list): A list full of contacts.
+            
+        Returns:
+            A list of the five most recently deleted contacts.
         
         """
     
-    def pull_contact(filenamme):
+    def pull_contact(self, filenamme):
         """Reads in file and return specific contact to be updated
         Args: 
             filename(str): path to a file containing current contacts
@@ -36,7 +41,7 @@ class ContactBook():
         """
         
         
-    def update_contact(contact):
+    def update_contact(self, contact):
         """ Updates a previously existing contact selected in pull_contact function
         Args:
             contact(list): the output of the pull_contact method containing the name, number, email, and zipcode to be updated
@@ -47,15 +52,27 @@ class ContactBook():
         """
     
     
-    def sort_by_name(self):
-        """Joshua
+    def sort_by_name(self, contact_book):
+        """ Sorts the contact list by the name of the contact.
+        
+        Args:
+            contact_book(list): List that contains all the contacts.
+            
+        Returns:
+            A contact book that is sorted by the name of the contact in alphabetical order.
         """
         pass
     
     
-    def sort_by_zipcode(self):
-        """Joshua
-        regex sort by zipcode
+    def sort_by_zipcode(self, contact_book):
+        """ Sorts the contact list by the zipcode of each contact.
+        
+        Args:
+            contact_book(list): List that contains all the contacts.
+        
+        Returns:
+            A contact book that is sorted by the contact's zipcode in numerical order.
+        
         """
         pass
     
@@ -83,5 +100,4 @@ def main():
          
     
 def parse_args():
-        """Enter -h to see possible functions, then move on from there
-        """
+        """ Parse command-line arguments. """
