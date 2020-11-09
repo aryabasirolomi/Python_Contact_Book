@@ -21,14 +21,28 @@ class ContactBook():
     
         
     def add_contact(self, filename):
-        """Deion is in this method
-        This method... 
+        """ Adds a contact to contact_book.
+        
+        Args:
+            filename(str): path to a file containing current contacts
+            
+        Side Effects:
+            Updates self.contact_book attribute.
         """
         pass
     
     
     def remove_contact(self, filename):
-        """Deion
+        """ Removes a contact from contact_book.
+        
+        Args:
+            filename(str): path to a file containing current contacts
+            
+        Side Effects:
+            Updates self.contact_book attribute.
+            
+        Raises:
+            ValueError: ValueError raises if contact does not exist
         """
         pass
   
