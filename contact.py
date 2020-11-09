@@ -4,7 +4,7 @@ class ContactBook():
     def __init__(self, name, number, email, zipcode):
         self.name = name
         self.number = number
-        self.number = email
+        self.email = email
         self.zipcode = zipcode
         
         
@@ -77,20 +77,42 @@ class ContactBook():
         pass
     
     
-    def print_all(self):
-        """Arya
+    def print_all(self, contact_book):
+        """ Prints all of the contacts in no specific order.
+        
+        Args:
+            contact_book(list): List that contains all the contacts.
+            
+        Returns:
+            Every item in contact book
         """
         pass
     
     
-    def share_contact(self):
-        """Arya 
-        logging library
+    def share_contact(self, contact_book):
+        """ Uses simple mail trasnfer protocol(SMTP) to send one contact to another person by email 
+        
+        Args:
+            contact_book(list): List that contains all the contacts.
+            
+        Returns:
+            A contact that will be emailed to the desired email
+       
         """
         pass
 
-    def favorites(self):
-        """Arya
+    def favorites(self, contact_book):
+        """ Creates a new list of your 5 favorite contacts. To add a contact after 5, you must
+        delete an old contact using remove_contact() first, then add the contact
+        
+        Args:
+            contact_book(list): List that contains all the contacts.
+            
+        Returns:
+            A list of 5 contacts that are indicated to be the favorites
+
+        Raises:
+            IndexError if you try and add more then 5 contacts to your favorites.
         """
         pass
     
