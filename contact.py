@@ -60,7 +60,7 @@ class ContactBook():
         """
     
     
-    def pull_one_contact(self, filenamme, name):
+    def pull_one_contact(self, filename, name):
         """ Reads in file and return specific contact
         
         Args: 
@@ -70,8 +70,22 @@ class ContactBook():
         Returns:
             contact(dict): returns a contact with name as the key and
             number, email, and zipcode as the value
+             
+        Raises:
+            ValueError: ValueError raises if contact does not exist
         """
-        
+        with open (filename, "r", encoding="utf-8") as f:
+            contact = {}
+            for line in f:
+                name, number, email, zipcode = line.strip(),split(",")
+                if name == self.name:
+                    contact[name] = [0]
+                    contact[number] = [1]
+                    contact[email] = [2]
+                    contact[zipcode] = [3]
+                    return contact 
+                else:
+                    raise ValueError("This contact does not exist")
         
     def update_contact(self, contact):
         """ Updates a previously existing contact selected in pull_contact function
@@ -81,11 +95,8 @@ class ContactBook():
             
         Side Effects:
             Updates attributes "name", "number", and "email" depending on user input
-            
-        Raises:
-            ValueError: ValueError raises if contact does not exist
         """
-    
+        
     
     def sort_by_name(self, contact_book):
         """ Sorts the contact book by the name of the contacts.
