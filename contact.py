@@ -141,8 +141,8 @@ class ContactBook():
             email(str): The email address you are sending the contact to.
             name(str): the name of the contact you want to share.
             
-        Returns:
-            A contact that will be emailed to the desired email
+        Raises:
+            A ValueError if the senders username or password is incorrect
         """
         your_email = input('What is your email?')
         your_password = getpass.getpass(prompt='What is your password? (case-sensitive')
@@ -176,7 +176,12 @@ class ContactBook():
             {contact}"""
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(host=host, port=port, context=context) as server:
-            server.login(your_email, your_password)
+            while True:
+                try:
+                    server.login(your_email, your_password)
+                except ValueError:
+                    print('Yyour email or password is incorrect, please try again')
+                    break
             server.sendmail(sender_email, your_email, message)
             server.close()
             
