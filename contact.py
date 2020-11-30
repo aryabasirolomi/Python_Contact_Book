@@ -1,17 +1,22 @@
 import smtplib, ssl
 import getpass
+import sys
+from argparse import ArgumentParser
 
 class ContactBook():
+    """ This class creates a contact book, and allows you to manage it
     
+    Attributes:
+        contact_book(list): a list of all of the contacts (name,number,email,zipcode)
+    """
     
-    def __init__(self, name, number, email, zipcode):
-        self.name = name
-        self.number = number
-        self.email = email
-        self.zipcode = zipcode
-        self.contact_book = {}
+    def __init__(self, filename):
+        with open(filename, 'r', encoding='utf-8') as self.contacts:
+            for line in self.contacts:
+                self.contacts.split(',')
+            
         
-    def print_all(self, filename):
+    def print_all(self):
         """ Prints all of the contacts in a specified path.
         
         Args:
@@ -22,24 +27,32 @@ class ContactBook():
         """
         pass
     
-        
-    def add_contact(self, filename):
-        """ Adds a contact to contact_book.
+    
+    def save(self):
+        """ This method works with other methods to update the file with the contacts with any changes made"""
+        pass
+    
+       
+    def add_contact(self, name, number, email, zipcode):
+        """ Creates and adds a contact.
         
         Args:
-            filename(str): path to a file containing current contacts
+            name(str): the name of a contact (firstname, lastname)
+            number(str): the phone number of a contact (ZZZ-ZZZ-ZZZZ)
+            email(str): the email of a contact
+            zipcode(int): the zipcode of a contact (ZZZZZ)
             
         Side Effects:
             Updates self.contact_book attribute.
         """
         pass
     
-    
-    def remove_contact(self, filename):
-        """ Removes a contact from contact_book.
+     
+    def remove_contact(self, name):
+        """ Removes a contact.
         
         Args:
-            filename(str): path to a file containing current contacts
+            name(str):  the name of a contact (firstname, lastname)
             
         Side Effects:
             Updates self.contact_book attribute.
@@ -50,25 +63,21 @@ class ContactBook():
         pass
   
     
-    def deleted_contacts(self, contact):
+    def deleted_contacts(self):
         """ Holds the five most recent deleted contacts, which can be used for
         reference in case of an accidental deletion.
-
-        Args:
-            contact(list): A list full of contacts from remove_contact.
             
         Returns:
             A list of the five most recently deleted contacts.
-        
         """
+        pass
     
     
-    def pull_one_contact(self, filename, name):
+    def pull_one_contact(self, name):
         """ Reads in file and return specific contact
         
         Args: 
-            filename(str): path to a file containing current contacts
-            name(str): the name of the contact you want pulled
+            name(str): the name of the contact you want pulled (firstname, lastname)
             
         Returns:
             contact(list): returns a contact with name,
@@ -91,11 +100,12 @@ class ContactBook():
                     raise ValueError("This contact does not exist")
         return contact 
         
-    def update_contact(self, contact):
+        
+    def update_contact(self, name):
         """ Updates a previously existing contact selected in pull_contact function
         
         Args:
-            contact(dict): the output of the pull_contact method containing the name, number, email, and zipcode to be updated
+            contact(list): the output of the pull_contact method containing the name, number, email, and zipcode to be updated
             
         Side Effects:
             Updates attributes "name", "number", "email," and "zipcode" depending on user input
@@ -108,29 +118,17 @@ class ContactBook():
         
         
     
-    def sort_by_name(self, contact_book):
-        """ Sorts the contact book by the name of the contacts.
-        
-        Args:
-            contact_book(list): List that contains all the contacts.
+    def sort_contacts(self):
+        """ Sorts the contact book by the name or zipcode of the contacts.
             
         Returns:
-            A dict that is sorted by the name of the contacts in alphabetical order.
+            A list of sorted contacts.
         """
         pass
-    
-    
-    def sort_by_zipcode(self, contact_book):
-        """ Sorts the contact book by the zipcode of each contact.
+        method = input('How would you like to sort the contacts?')
+        if method == 'name':
         
-        Args:
-            contact_book(list): List that contains all the contacts.
-        
-        Returns:
-            A dict that is sorted by the contact's zipcode in numerical order.
-        
-        """
-        pass
+        if method == 'zipcode':
     
     
     def share_contact(self, sender_email, name):
@@ -183,7 +181,7 @@ class ContactBook():
             name(str): The name of the contact you want to add to your favorites.
             
         Returns:
-            A list of dict that contain 5 contacts that are indicated to be the favorites
+            A list of 5 contacts that are indicated to be the favorites
         """
         pass
     
