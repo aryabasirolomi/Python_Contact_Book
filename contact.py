@@ -1,3 +1,6 @@
+import smtplib, ssl
+import getpass
+
 class ContactBook():
     
     
@@ -78,7 +81,7 @@ class ContactBook():
         with open (filename, "r", encoding="utf-8") as f:
             for line in f:
                 comma_split = line.strip(),split(",")
-                if name == self.name]:
+                if name == self.name:
                     name = comma_split[0]
                     number = comma_split[1]
                     email = comma_split[2]
@@ -138,19 +141,47 @@ class ContactBook():
         pass
     
     
-    def share_contact(self, email, name):
+    def share_contact(self, sender_email, name):
         """ Uses simple mail trasnfer protocol(SMTP) to send one contact to another person by email.
         Uses pull one contact method to decide what to send
         
         Args:
             email(str): The email address you are sending the contact to.
-            name(dict): the Dict that contains the contact you want to send.
+            name(str): the name of the contact you want to share.
             
-        Returns:
-            A contact that will be emailed to the desired email
+        Raises:
+            A ValueError if the senders username or password is incorrect
         """
-        pass
+        your_email = input('What is your email?')
+        your_password = getpass.getpass(prompt='What is your password? (case-sensitive')
+        contact = pull_one_contact(name)
+        email_host = your_email.lower().split('@')
+        server_data = {'outlook.com': ['smtp-mail.outlook.com', 587],
+                       'gmail.com': ['smtp.gmail.com', 465],
+                       'yahoo.com': ['smtp.mail.yahoo.com', 465],
+                       'icloud.com': ['imap.mail.me.com', 993],
+                       'aol.com': ['smtp.aol.com', 25],
+                       'umd.edu': ['smtp.cs.umd.edu', 587],
+                       'hotmail.com': ['smtp.live.com', 25]
+        }
+            
+        host, port = [[i[0],i[1] for i in server_data[x]] for x in server_data if x == email_host]
 
+        message =f"""\
+            Subject: New shared contact!
+            
+            {contact}"""
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(host=host, port=port, context=context) as server:
+            while True:
+                try:
+                    server.login(your_email, your_password)
+                except ValueError:
+                    print('Your email or password is incorrect, please try again')
+                    break
+            server.sendmail(sender_email, your_email, message)
+            server.close()
+            
 
     def favorites(self, name):
         """ Creates a new dict of your 5 favorite contacts. To add a contact after 5, you must
