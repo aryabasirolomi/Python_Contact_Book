@@ -98,9 +98,17 @@ class ContactBook():
             Updates attributes "name", "number", "email," and "zipcode" depending on user input
         """
         update_choice = input("What part of the contact would you like to update? Enter name, number, email, or zipcode")
-        if update_choice == name
-        elif update_choice == number
-        elif update_choice == zipcode
+        if update_choice == name:
+            
+        elif update_choice == number:
+            
+        elif update_choice == email:
+            
+        elif update_choice == zipcode:
+            
+        else:
+            break
+        
         
         
         
