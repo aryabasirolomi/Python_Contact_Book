@@ -147,29 +147,18 @@ class ContactBook():
         your_email = input('What is your email?')
         your_password = getpass.getpass(prompt='What is your password? (case-sensitive')
         contact = pull_one_contact(name)
-        
         email_host = your_email.lower().split('@')
-        if email_host == 'outlook.com':
-            host = 'smtp-mail.outlook.com'
-            port = 587
-        if email_host == 'gmail.com':
-            host = 'smtp.gmial.com'
-            port = 465
-        if email_host == 'yahoo.com':
-            host = 'smtp.mail.yahoo.com'
-            port = 465
-        if email_host == 'icloud.com':
-            host = 'imap.mail.me.com'
-            port = 993
-        if email_host == 'aol.com':
-            host = 'smtp.aol.com'
-            port = 25
-        if email_host == 'umd.edu':
-            host = 'smtp.cs.umd.edu'
-            port = 587
-        if email_host == 'hotmail.com':
-            host = 'smtp.live.com'
-            port = 25
+        server_data = {'outlook.com': ['smtp-mail.outlook.com', 587],
+                       'gmail.com': ['smtp.gmail.com', 465],
+                       'yahoo.com': ['smtp.mail.yahoo.com', 465],
+                       'icloud.com': ['imap.mail.me.com', 993],
+                       'aol.com': ['smtp.aol.com', 25],
+                       'umd.edu': ['smtp.cs.umd.edu', 587],
+                       'hotmail.com': ['smtp.live.com', 25]
+        }
+            
+        host, port = [[i[0],i[1] for i in server_data[x]] for x in server_data if x == email_host]
+
         message =f"""\
             Subject: New shared contact!
             
@@ -180,13 +169,11 @@ class ContactBook():
                 try:
                     server.login(your_email, your_password)
                 except ValueError:
-                    print('Yyour email or password is incorrect, please try again')
+                    print('Your email or password is incorrect, please try again')
                     break
             server.sendmail(sender_email, your_email, message)
             server.close()
             
-        
-        
 
     def favorites(self, name):
         """ Creates a new dict of your 5 favorite contacts. To add a contact after 5, you must
