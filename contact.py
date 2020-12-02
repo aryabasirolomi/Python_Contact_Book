@@ -161,18 +161,18 @@ class ContactBook():
         """
         your_email = input('What is your email?')
         your_password = getpass.getpass(prompt='What is your password? (case-sensitive')
-        contact = pull_one_contact(name)
+        contact = self.pull_one_contact(name)
         email_host = your_email.lower().split('@')
-        server_data = {'outlook.com': ['smtp-mail.outlook.com', 587],
-                       'gmail.com': ['smtp.gmail.com', 465],
-                       'yahoo.com': ['smtp.mail.yahoo.com', 465],
-                       'icloud.com': ['imap.mail.me.com', 993],
-                       'aol.com': ['smtp.aol.com', 25],
-                       'umd.edu': ['smtp.cs.umd.edu', 587],
-                       'hotmail.com': ['smtp.live.com', 25]
-        }
-            
-        host, port = [[i[0],i[1] for i in server_data[x]] for x in server_data if x == email_host]
+        server_data = [('outlook.com', 'smtp-mail.outlook.com', 587),
+                       ('gmail.com', 'smtp.gmail.com', 465),
+                       ('yahoo.com', 'smtp.mail.yahoo.com', 465),
+                       ('icloud.com', 'imap.mail.me.com', 993),
+                       ('aol.com', 'smtp.aol.com', 25),
+                       ('umd.edu', 'smtp.cs.umd.edu', 587),
+                       ('hotmail.com', 'smtp.live.com', 25)
+                       ]
+        #ERROR
+        host,port = [(x[1],x[2]) for x in server_data if x == email_host[1]]
 
         message =f"""\
             Subject: New shared contact!
@@ -204,9 +204,9 @@ class ContactBook():
         if name == None:
             print(favorites)
         if len(favorites) <= 5:
-            favorites.append(pull_one_contact(name))
+            favorites.append(self.pull_one_contact(name))
         if len(favorites) >= 5:
-            asnwer = input("You can only have a maximum of 5 favorites. If you would like to remove a contact, enter: yes")
+            answer = input("You can only have a maximum of 5 favorites. If you would like to remove a contact, enter: yes")
             if answer == "yes":
                 print(favorites)
                 remove = input("Please enter the name of the contact you would like to remove")
@@ -216,29 +216,29 @@ class ContactBook():
                             favorites.pop(remove)
     
        
-def main(print_all, add_contact, remove_contact, deleted_contacts, pull_one_contact, update_contact, sort_contacts, share_contact, favorites):
+def main(filename, print_all, add_contact, remove_contact, deleted_contacts, pull_one_contact, update_contact, sort_contacts, share_contact, favorites):
     ContactBooks = ContactBook(filename)
     if print_all != False:
-        ContactBooks.print_all(print_all)
+        ContactBooks.print_all()
     if add_contact != False:
         ContactBooks.add_contact(add_contact)
     if remove_contact != False:
         ContactBooks.remove_contact(remove_contact)
     if deleted_contacts != False:
-        ContactBooks.deleted_contacts(deleted_contacts)
+        ContactBooks.deleted_contacts()
     if pull_one_contact != False:
         ContactBooks.pull_one_contact(pull_one_contact)
     if update_contact != False:
         ContactBooks.update_contact(update_contact)
     if sort_contacts != False:
-        ContactBooks.sort_contacts(sort_contacts)
+        ContactBooks.sort_contacts()
     if share_contact != False:
         ContactBooks.share_contact(share_contact)
     if favorites != False:
         ContactBooks.favorites(favorites)
          
     
-def parse_args():
+def parse_args(arglist):
     """ Parse command-line arguments. 
         Args:
             arglist (list of str): list of command-line arguments.
@@ -247,6 +247,7 @@ def parse_args():
             more information)
     """
     parser = ArgumentParser()
+    parser.add_argument("filename", help = "The path to a file containing contacts")
     parser.add_argument("-p", "--print_all", default = False,
                         help = "Enter anything if you would like to see all of your contacts")
     parser.add_argument("-a", "--add_contact", default = False,
@@ -266,10 +267,10 @@ def parse_args():
     parser.add_argument("-f", "--favorites", default = False,
                         help = "Enter the name of the contact you want to add to your favorites, or enter None to view them")
     
-    return parser.parse_args()
+    return parser.parse_args(arglist)
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
-    main(args.print_all, args.add_contact, args.remove_contact,
+    main(args.filename, args.print_all, args.add_contact, args.remove_contact,
          args.deleted_contacts, args.pull_one_contact, args.update_contact, 
          args.sort_contacts, args.share_contact, args.favorites)
