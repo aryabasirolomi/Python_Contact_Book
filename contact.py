@@ -75,7 +75,7 @@ class ContactBook():
     
     
     def pull_one_contact(self, name):
-        """ Reads in file and return specific contact
+        """ Takes full name as input and returns the one contact
         
         Args: 
             name(str): the name of the contact you want pulled (firstname, lastname)
@@ -88,44 +88,38 @@ class ContactBook():
             ValueError: ValueError raises if contact does not exist
         """
         contact = []
-        with open (filename, "r", encoding="utf-8") as f:
-            for line in f:
-                comma_split = line.strip(),split(",")
-                if name == self.name:
-                    name = comma_split[0]
-                    number = comma_split[1]
-                    email = comma_split[2]
-                    zipcode = comma_split[3]
-                    contact.append(name, number, email, zipcode)
-                else:
-                    raise ValueError("This contact does not exist")
-        return contact 
+        if name in self.contacts:
+            name = [0]
+            number = [1]
+            email = [2]
+            zipcode = [3]
+            contact.append(name, number, email, zipcode)
+        else:
+            raise ValueError("This contact does not exist. Please try again.")
+        return contact
         
         
-    def update_contact(self, name):
-        """ Updates a previously existing contact selected in pull_contact function
+    def update_contact(self, ):
+        """ Updates an existing contact
         
         Args:
-            contact(list): the output of the pull_contact method containing the name, number, email, and zipcode to be updated
-            
-        Side Effects:
-            Updates attributes "name", "number", "email," and "zipcode" depending on user input
+            name(str): the name of the contact you want pulled (firstname, lastname)
         """
-        update_choice = input("What part of the contact would you like to update? Enter name, number, email, or zipcode")
-        if update_choice == name:
-            
-        elif update_choice == number:
-            
-        elif update_choice == email:
-            
-        elif update_choice == zipcode:
-            
+        find_contact = pull_one_contact(name)
+        update_choice = input("Enter -name, -num, -e, or -z.")
+        
+        if "name":
+            new_name = input("Please enter the new name.")
+            contact[0] = "name"
+        elif update_choice == "number":
+            new_number = input("Please enter the new number.")
+            contact[1]
+        elif update_choice == "email":
+            new_email = input("Please enter the new email.")
+        elif update_choice == "zipcode":
+            new_zipcode = input("Please enter the new zipcode.")
         else:
-            break
-        
-        
-        
-        
+            break        
     
     def sort_contacts(self):
         """ Sorts the contact book by the name or zipcode of the contacts.
