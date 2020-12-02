@@ -7,13 +7,14 @@ class ContactBook():
     """ This class creates a contact book, and allows you to manage it
     
     Attributes:
-        contact_book(list): a list of all of the contacts (name,number,email,zipcode)
+        contacts_file(file): the file of contact books (name,number,email,zipcode)
+        contacts(list): all of the contacts, pulled from the file for local changes
     """
     
     def __init__(self, filename):
-        with open(filename, 'r', encoding='utf-8') as self.contacts:
-            for line in self.contacts:
-                self.contacts.split(',')
+        with open(filename, 'r', encoding='utf-8') as self.contacts_file:
+            for line in self.contacts_file:
+                self.contacts = line.split(',')
             
         
     def print_all(self):
@@ -29,9 +30,9 @@ class ContactBook():
     
     
     def save(self):
-        """ This method works with other methods to update the file with the contacts with any changes made"""
-        pass
-    
+        """ This method updates the file with any changes made locally."""
+        self.contacts_file = self.contacts
+                  
        
     def add_contact(self, name, number, email, zipcode):
         """ Creates and adds a contact.
@@ -182,7 +183,7 @@ class ContactBook():
             
 
     def favorites(self, name):
-        """ Creates a new dict of your 5 favorite contacts. To add a contact after 5, you must
+        """ Creates a new list of your 5 favorite contacts. To add a contact after 5, you must
         delete an old contact using remove_contact() first, then adds the contact.
         
         Args:
@@ -191,12 +192,76 @@ class ContactBook():
         Returns:
             A list of 5 contacts that are indicated to be the favorites
         """
-        pass
+        favorites = []
+        if name == None:
+            print(favorites)
+        if len(favorites) <= 5:
+            favorites.append(pull_one_contact(name))
+        if len(favorites) >= 5:
+            asnwer = input("You can only have a maximum of 5 favorites. If you would like to remove a contact, enter: yes")
+            if answer == "yes":
+                print(favorites)
+                remove = input("Please enter the name of the contact you would like to remove")
+                for x in favorites:
+                    for y in x:
+                        if y == remove:
+                            favorites.pop(remove)
     
        
-def main():
-    pass
+def main(print_all, add_contact, remove_contact, deleted_contacts, pull_one_contact, update_contact, sort_contacts, share_contact, favorites):
+    ContactBooks = ContactBook(filename)
+    if print_all != False:
+        ContactBooks.print_all(print_all)
+    if add_contact != False:
+        ContactBooks.add_contact(add_contact)
+    if remove_contact != False:
+        ContactBooks.remove_contact(remove_contact)
+    if deleted_contacts != False:
+        ContactBooks.deleted_contacts(deleted_contacts)
+    if pull_one_contact != False:
+        ContactBooks.pull_one_contact(pull_one_contact)
+    if update_contact != False:
+        ContactBooks.update_contact(update_contact)
+    if sort_contacts != False:
+        ContactBooks.sort_contacts(sort_contacts)
+    if share_contact != False:
+        ContactBooks.share_contact(share_contact)
+    if favorites != False:
+        ContactBooks.favorites(favorites)
          
     
 def parse_args():
-        """ Parse command-line arguments. """
+    """ Parse command-line arguments. 
+        Args:
+            arglist (list of str): list of command-line arguments.
+        Returns:
+            namespace: the parsed arguments (see argparse documentation for
+            more information)
+    """
+    parser = ArgumentParser()
+    parser.add_argument("-p", "--print_all", default = False,
+                        help = "Enter anything if you would like to see all of your contacts")
+    parser.add_argument("-a", "--add_contact", default = False,
+                        help = "Enter the contact info you would like to add in this format (name, number, email, zipcode")
+    parser.add_argument("-r", "--remove_contact", default = False,
+                        help = "Enter the name of the contact you would like to remove")
+    parser.add_argument("-d", "--deleted_contacts", default = False,
+                        help = "Enter anything if you would like to see your recently deleted contacts")
+    parser.add_argument("-o", "--pull_one_contact", default = False,
+                        help = "Enter the name of the contact you wish to see")
+    parser.add_argument("-u", "--update_contact", default = False,
+                        help = "Enter the name of the contact you would like to update")
+    parser.add_argument("-s", "--sort_contacts", default = False,
+                        help = "Enter anything to see a sorted version of your contacts")
+    parser.add_argument("-h", "--share_contact", default = False,
+                        help = "Enter the sender email and name of the contact you want to share")
+    parser.add_argument("-f", "--favorites", default = False,
+                        help = "Enter the name of the contact you want to add to your favorites, or enter None to view them")
+    
+    return parser.parse_args()
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
+    main(args.print_all, args.add_contact, args.remove_contact,
+         args.deleted_contacts, args.pull_one_contact, args.update_contact, 
+         args.sort_contacts, args.share_contact, args.favorites)
