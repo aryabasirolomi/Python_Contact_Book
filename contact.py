@@ -122,16 +122,30 @@ class ContactBook():
             break        
     
     def sort_contacts(self):
-        """ Sorts the contact book by the name or zipcode of the contacts.
+        """ Sorts the contact book by the name or zipcode of the contacts
+            and displays the contact book in ascending or descending order.
             
         Returns:
             A list of sorted contacts.
         """
-        pass
-        method = input('How would you like to sort the contacts?')
-        if method == 'name':
+        method = input("Enter 'name' to sort by name or 'zipcode' to sort by zipcode: ")
+        method_l = method.lower()
+        order = input("Type 'asc' to display in ascending order or 'desc' to display in descending order: ")
+        order_l = order.lower()
         
-        if method == 'zipcode':
+        if method_l == 'name' and order_l == 'asc':
+            name_sort = sorted(self.contacts, key=lambda x: x[0])
+            return name_sort
+        elif method_l == 'name' and order_l == 'desc':
+            name_sort = sorted(self.contacts, key=lambda x: x[0], reverse=True)
+            return name_sort
+        
+        elif method_l == 'zipcode' and order_l == 'asc':
+            zipcode_sort = sorted(self.contacts, key=lambda y: y[3])
+            return zipcode_sort
+        elif method_l == 'zipcode' and order_l == 'desc':
+            zipcode_sort = sorted(self.contacts, key=lambda y: y[3], reverse=True)
+            return zipcode_sort
     
     
     def share_contact(self, sender_email, name):
