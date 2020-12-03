@@ -47,26 +47,12 @@ class ContactBook():
             Updates self.contact.
             
         """
-            
-        if name in self.contacts:
-            name = [0]
-            number = [1]
-            email = [2]
-            zipcode = [3]
-            contact.append(name, number, email, zipcode)
-        new_name = input("Please enter the new name.")
-        contact[0] = "name"
-        
-        new_number = input("Please enter the new number.")
-        contact[1]
-        elif update_choice == "email":
-            new_email = input("Please enter the new email.")
-        elif update_choice == "zipcode":
-            new_zipcode = input("Please enter the new zipcode.")
-        else:
-            break    
-    
-     
+
+        new_contact = input("Input your contact? Enter name,number,email,zipcode (in this format)")
+        self.contacts_file.write(new_contact)
+        print(f"Thank you {new_contact} has been added to your contact book.")
+         
+         
     def remove_contact(self, name):
         """ Removes a contact.
         
@@ -79,7 +65,12 @@ class ContactBook():
         Raises:
             ValueError: ValueError raises if contact does not exist
         """
-        pass
+        delete_name = input("Enter 'name' to delete this contact.")
+        if name in self.contacts:
+            contact.append(name, number, email, zipcode)
+        else:
+            raise ValueError("This contact does not exist. Please try again.")
+        print(f"Thank you {delete_name} has been removed from your contact book.")
   
     
     def deleted_contacts(self):
