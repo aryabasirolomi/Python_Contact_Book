@@ -12,7 +12,7 @@ class ContactBook():
     """
     
     def __init__(self, filename):
-        with open(filename, 'r', encoding='utf-8') as self.contacts_file:
+        with open(filename, 'r+', encoding='utf-8') as self.contacts_file:
             for line in self.contacts_file:
                 self.contacts = line.split(',')
             
@@ -26,7 +26,7 @@ class ContactBook():
         Returns:
             Every item in contact book in a dict format 
         """
-        pass
+        print(self.contacts_file.read())
     
     
     def save(self):
@@ -99,27 +99,28 @@ class ContactBook():
         return contact
         
         
-    def update_contact(self, ):
+    def update_contact(self):
         """ Updates an existing contact
         
         Args:
             name(str): the name of the contact you want pulled (firstname, lastname)
         """
-        find_contact = pull_one_contact(name)
-        update_choice = input("Enter -name, -num, -e, or -z.")
+        #In Progress
+        find_contact = pull_one_contact[0]
+        update_choice = input("What part of the contact would you like to modify? Enter name, number, email, or zipcode.")
         
-        if "name":
-            new_name = input("Please enter the new name.")
+        if update_choice == "name":
+            new_name = input("Please enter the updated name.")
             contact[0] = "name"
         elif update_choice == "number":
-            new_number = input("Please enter the new number.")
+            new_number = input("Please enter the updated number.")
             contact[1]
         elif update_choice == "email":
-            new_email = input("Please enter the new email.")
+            new_email = input("Please enter the updated email.")
         elif update_choice == "zipcode":
-            new_zipcode = input("Please enter the new zipcode.")
+            new_zipcode = input("Please enter the updated zipcode.")
         else:
-            break        
+            sys.exit()      
     
     def sort_contacts(self):
         """ Sorts the contact book by the name or zipcode of the contacts
