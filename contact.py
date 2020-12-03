@@ -44,9 +44,27 @@ class ContactBook():
             zipcode(int): the zipcode of a contact (ZZZZZ)
             
         Side Effects:
-            Updates self.contact_book attribute.
+            Updates self.contact.
+            
         """
-        pass
+            
+        if name in self.contacts:
+            name = [0]
+            number = [1]
+            email = [2]
+            zipcode = [3]
+            contact.append(name, number, email, zipcode)
+        new_name = input("Please enter the new name.")
+        contact[0] = "name"
+        
+        new_number = input("Please enter the new number.")
+        contact[1]
+        elif update_choice == "email":
+            new_email = input("Please enter the new email.")
+        elif update_choice == "zipcode":
+            new_zipcode = input("Please enter the new zipcode.")
+        else:
+            break    
     
      
     def remove_contact(self, name):
@@ -56,7 +74,7 @@ class ContactBook():
             name(str):  the name of a contact (firstname, lastname)
             
         Side Effects:
-            Updates self.contact_book attribute.
+            Updates self.contact
             
         Raises:
             ValueError: ValueError raises if contact does not exist
