@@ -164,7 +164,8 @@ class ContactBook():
         your_password = getpass.getpass(prompt='What is your password? (case-sensitive')
         contact = self.pull_one_contact(name)
         email_host = your_email.lower().split('@')
-        server_data = [('outlook.com', 'smtp-mail.outlook.com', 587),
+        server_data =  [
+                       ('outlook.com', 'smtp-mail.outlook.com', 587),
                        ('gmail.com', 'smtp.gmail.com', 465),
                        ('yahoo.com', 'smtp.mail.yahoo.com', 465),
                        ('icloud.com', 'imap.mail.me.com', 993),
@@ -172,8 +173,11 @@ class ContactBook():
                        ('umd.edu', 'smtp.cs.umd.edu', 587),
                        ('hotmail.com', 'smtp.live.com', 25)
                        ]
-        #ERROR
-        host,port = [(x[1],x[2]) for x in server_data if x == email_host[1]]
+       
+        host_list = [str(x[1]) for x in server_data if x[0] == email_host[1]]
+        port_list = [int(x[2]) for x in server_data if x[0] == email_host[1]]
+        host = host_list[0]
+        port = port_list[0]
 
         message =f"""\
             Subject: New shared contact!
