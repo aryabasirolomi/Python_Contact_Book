@@ -2,20 +2,23 @@ import smtplib, ssl
 import getpass
 import sys
 from argparse import ArgumentParser
-
+#print all, save, add_contact, remove_contact, pull_one_contact, sort_contacts
 class ContactBook():
     """ This class creates a contact book, and allows you to manage it
     
     Attributes:
-        contacts_file(file): the file of contact books (name,number,email,zipcode)
-        contacts(list): all of the contacts, pulled from the file for local changes
+        contacts_file(str): contacts_file(file): the file of contact books (name,number,email,zipcode) all in string format
+        contacts(list): all of the contacts, pulled from the file for local changes all in string format
+        file(str): the path to the file containing contacts
     """
     
     def __init__(self, filename):
-        with open(filename, 'r+', encoding='utf-8') as self.contacts_file:
-            for line in self.contacts_file:
-                self.contacts = line.split(',')
-            
+        self.file = filename
+        self.contacts = []
+        with open(self.file, 'r', encoding='utf-8') as self.contacts_file:
+            for line in self.contacts_file.readlines():
+                self.contacts.append(line.split(','))
+       
         
     def print_all(self):
         """ Prints all of the contacts in a specified path.
@@ -26,12 +29,17 @@ class ContactBook():
         Returns:
             Every item in contact book in a dict format 
         """
-        print(self.contacts_file.read())
+        with open(self.file, 'r', encoding='utf-8') as self.contacts_file:
+            print(self.contacts_file.read())
+        
     
     
     def save(self):
         """ This method updates the file with any changes made locally."""
-        self.contacts_file = self.contacts
+        with open(self.file, 'a', encoding='utf-8') as self.contacts_file:
+            for line in self.contacts:
+                self.contacts_file.write("\n")
+                self.contacts_file.write(str(line))
                   
        
     def add_contact(self, name, number, email, zipcode):
@@ -48,8 +56,10 @@ class ContactBook():
             
         """
         
-        new_contact = input("Input your contact? Enter name,number,email,zipcode (in this format)")
-        self.contacts.write(new_contact)
+        new_contact = f"{name}, {number}, {email}, {zipcode}"
+        contact_list = [name,number,email,zipcode]
+        self.contacts.append(contact_list)
+        self.save()
         print(f"Thank you {new_contact} has been added to your contact book.")
          
          
@@ -65,22 +75,17 @@ class ContactBook():
         Raises:
             ValueError: ValueError raises if contact does not exist
         """
+        #with open(self.file, 'a', encoding='utf-8') as self.contacts_file:
+            #read in file
+        for line in self.contacts:
+            if line.lower().startswith(name.lower()):
+                self.contacts.pop(count)
+            else:
+                raise ValueError("This contact does not exist. Please try again.")
+        self.save()
+        print(f"Thank you {name} has been removed from your contact book.")
         
-        delete_name = input("Enter 'name' to delete this contact.")
-        output = []
-        
-        for line in self.contacts_file:
-            if not line.startswith(delete_name):
-                output.append(line)
-                self.contacts_file.close()
-                f = open(self.contacts_file, 'w')
-                f.writelines(output)
-                f.close()
-                print(f"Thank you {delete_name} has been removed from your contact book.")
-        else:
-            raise ValueError("This contact does not exist. Please try again.")
 
-    
     def deleted_contacts(self):
         """ Holds the five most recent deleted contacts, which can be used for
         reference in case of an accidental deletion.
@@ -105,14 +110,16 @@ class ContactBook():
             ValueError: ValueError raises if contact does not exist
         """
         contact = []
-        if name in self.contacts:
-            name = [0]
-            number = [1]
-            email = [2]
-            zipcode = [3]
-            contact.append(name, number, email, zipcode)
-        else:
-            raise ValueError("This contact does not exist. Please try again.")
+        for x in self.contacts:
+            if x[0] == name:
+                contact_name = x[0]
+                number = x[1]
+                email = x[2]
+                zipcode = x[3]
+                contact = [contact_name, number, email, zipcode]
+                print(contact)
+            #else:
+                #raise ValueError("This contact does not exist. Please try again.")
         return contact
         
         
@@ -122,11 +129,12 @@ class ContactBook():
         Args:
             name(str): the name of the contact you want pulled (firstname, lastname)
         """
+        """
         #In Progress
-        find_contact = pull_one_contact[]
+        find_contact = pull_one_contact()
         #Find a way to do multiple indices
         update_choice = input("What part of the contact would you like to modify? Enter name, number, email, or zipcode.")
-        for x in find_contact:
+    #for x in find_contact:
             #change x, maybe LC, 
         if update_choice == "name":
             new_name = input("Please enter the updated name.")
@@ -146,7 +154,7 @@ class ContactBook():
             print(f"Your contact has been updated successfully with the following information: \n Zipcode:{new_zipcode}")
         else:
             sys.exit() 
-        
+        """
     
     
     def sort_contacts(self):
@@ -163,17 +171,21 @@ class ContactBook():
         
         if method_l == 'name' and order_l == 'asc':
             name_sort = sorted(self.contacts, key=lambda x: x[0])
-            return name_sort
+            for x in name_sort:
+                print(x)
         elif method_l == 'name' and order_l == 'desc':
             name_sort = sorted(self.contacts, key=lambda x: x[0], reverse=True)
-            return name_sort
+            for x in name_sort:
+                print(x)
         
         elif method_l == 'zipcode' and order_l == 'asc':
             zipcode_sort = sorted(self.contacts, key=lambda y: y[3])
-            return zipcode_sort
+            for x in zipcode_sort:
+                print(x)
         elif method_l == 'zipcode' and order_l == 'desc':
             zipcode_sort = sorted(self.contacts, key=lambda y: y[3], reverse=True)
-            return zipcode_sort
+            for x in zipcode_sort:
+                print(x)
     
     
     def share_contact(self, sender_email, name):
@@ -233,8 +245,9 @@ class ContactBook():
             A list of 5 contacts that are indicated to be the favorites
         """
         favorites = []
-        if name == None:
-            print(favorites)
+        if name == "None":
+            for x in favorites:
+                print(favorites)
         if len(favorites) <= 5:
             favorites.append(self.pull_one_contact(name))
         if len(favorites) >= 5:
@@ -248,26 +261,51 @@ class ContactBook():
                             favorites.pop(remove)
     
        
-def main(filename, print_all, add_contact, remove_contact, deleted_contacts, pull_one_contact, update_contact, sort_contacts, share_contact, favorites):
+def main(filename):
+    functionality = input("""What would you like to do: Enter 1 for printing all of your functions,
+                          Enter 2 for adding a new contact,
+                          Enter 3 for removing a contact,
+                          Enter 4 to see your past 5 deleted contacts,
+                          Enter 5 to see one contact's info,
+                          Enter 6 to update a contact,
+                          Enter 7 to view your contacts sorted by either Name or Zipcode,
+                          Enter 8 to share a contact,
+                          Enter 9 to view or add to your favorites \n""")
     ContactBooks = ContactBook(filename)
-    if print_all != False:
+    if functionality == "1":
         ContactBooks.print_all()
-    if add_contact != False:
-        ContactBooks.add_contact(add_contact)
-    if remove_contact != False:
-        ContactBooks.remove_contact(remove_contact)
-    if deleted_contacts != False:
+        
+    if functionality == "2":
+        info = input("Please enter your the contact info in this format: name, number, email, zipcode \n")
+        split_info = info.split(",")
+        ContactBooks.add_contact(split_info[0], split_info[1], split_info[2], split_info[3])
+        
+    if functionality == "3":
+        remove = input("Please enter the name of the contact you wish to remove \n")
+        ContactBooks.remove_contact(remove)
+        
+    if functionality == "4":
         ContactBooks.deleted_contacts()
-    if pull_one_contact != False:
-        ContactBooks.pull_one_contact(pull_one_contact)
-    if update_contact != False:
-        ContactBooks.update_contact(update_contact)
-    if sort_contacts != False:
+        
+    if functionality == "5":
+        see = input("Please enter the full name of the contact you wish to see \n")
+        ContactBooks.pull_one_contact(see)
+        
+    if functionality == "6":
+        update = input("Please enter the name of the contact you wish to update \n")
+        #ContactBooks.update_contact(update)
+        
+    if functionality == "7":
         ContactBooks.sort_contacts()
-    if share_contact != False:
-        ContactBooks.share_contact(share_contact)
-    if favorites != False:
-        ContactBooks.favorites(favorites)
+        
+    if functionality == "8":
+        info = input("Enter the name of the contact you wish to share, and the email you are sending it to in this format: name,email \n")
+        info_split = info.split()
+        ContactBooks.share_contact(info_split[0], info_split[1])
+        
+    if functionality == "9":
+        info = input("Enter the name of the contact you want to add to your favorites, if there is none type None \n")
+        ContactBooks.favorites(info)
          
     
 def parse_args(arglist):
@@ -280,29 +318,10 @@ def parse_args(arglist):
     """
     parser = ArgumentParser()
     parser.add_argument("filename", help = "The path to a file containing contacts")
-    parser.add_argument("-p", "--print_all", default = False,
-                        help = "Enter anything if you would like to see all of your contacts")
-    parser.add_argument("-a", "--add_contact", default = False,
-                        help = "Enter the contact info you would like to add in this format (name, number, email, zipcode")
-    parser.add_argument("-r", "--remove_contact", default = False,
-                        help = "Enter the name of the contact you would like to remove")
-    parser.add_argument("-d", "--deleted_contacts", default = False,
-                        help = "Enter anything if you would like to see your recently deleted contacts")
-    parser.add_argument("-o", "--pull_one_contact", default = False,
-                        help = "Enter the name of the contact you wish to see")
-    parser.add_argument("-u", "--update_contact", default = False,
-                        help = "Enter the name of the contact you would like to update")
-    parser.add_argument("-s", "--sort_contacts", default = False,
-                        help = "Enter anything to see a sorted version of your contacts")
-    parser.add_argument("-h", "--share_contact", default = False,
-                        help = "Enter the sender email and name of the contact you want to share")
-    parser.add_argument("-f", "--favorites", default = False,
-                        help = "Enter the name of the contact you want to add to your favorites, or enter None to view them")
-    
+
     return parser.parse_args(arglist)
+
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
-    main(args.filename, args.print_all, args.add_contact, args.remove_contact,
-         args.deleted_contacts, args.pull_one_contact, args.update_contact, 
-         args.sort_contacts, args.share_contact, args.favorites)
+    main(args.filename)
