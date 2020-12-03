@@ -47,9 +47,9 @@ class ContactBook():
             Updates self.contact.
             
         """
-
+        
         new_contact = input("Input your contact? Enter name,number,email,zipcode (in this format)")
-        self.contacts_file.write(new_contact)
+        self.contacts.write(new_contact)
         print(f"Thank you {new_contact} has been added to your contact book.")
          
          
@@ -65,13 +65,21 @@ class ContactBook():
         Raises:
             ValueError: ValueError raises if contact does not exist
         """
+        
         delete_name = input("Enter 'name' to delete this contact.")
-        if name in self.contacts:
-            contact.append(name, number, email, zipcode)
+        output = []
+        
+        for line in self.contacts_file:
+            if not line.startswith(delete_name):
+                output.append(line)
+                self.contacts_file.close()
+                f = open(self.contacts_file, 'w')
+                f.writelines(output)
+                f.close()
+                print(f"Thank you {delete_name} has been removed from your contact book.")
         else:
             raise ValueError("This contact does not exist. Please try again.")
-        print(f"Thank you {delete_name} has been removed from your contact book.")
-  
+
     
     def deleted_contacts(self):
         """ Holds the five most recent deleted contacts, which can be used for
