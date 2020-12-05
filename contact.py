@@ -262,7 +262,7 @@ class ContactBook():
     
        
 def main(filename):
-    functionality = input("""What would you like to do: Enter 1 for printing all of your functions,
+    functionality = input("""What would you like to do: Enter 1 for printing all of your contacts,
                           Enter 2 for adding a new contact,
                           Enter 3 for removing a contact,
                           Enter 4 to see your past 5 deleted contacts,
