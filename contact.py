@@ -118,43 +118,41 @@ class ContactBook():
                 zipcode = x[3]
                 contact = [contact_name, number, email, zipcode]
                 print(contact)
-            #else:
-                #raise ValueError("This contact does not exist. Please try again.")
         return contact
         
         
-    def update_contact(self):
+    def update_contact(self,name):
         """ Updates an existing contact
         
         Args:
-            name(str): the name of the contact you want pulled (firstname, lastname)
+            name(str): the name of the contact you want to update (firstname, lastname)
         """
-        """
-        #In Progress
-        find_contact = pull_one_contact()
-        #Find a way to do multiple indices
         update_choice = input("What part of the contact would you like to modify? Enter name, number, email, or zipcode.")
-    #for x in find_contact:
-            #change x, maybe LC, 
+        find_contact = pull_one_contact(name)
+        
         if update_choice == "name":
-            new_name = input("Please enter the updated name.")
-            find_contact[0] == new_name
+            new_name = input("Please enter the updated name as firstname, lastname.")
+            find_contact[0] = new_name   
             print(f"Your contact has been updated successfully with the following information: \n Name: {new_name}")
+        
         elif update_choice == "number":
             new_number = input("Please enter the updated number.")
-            find_contact[1] == new_number
+            find_contact[1] = new_number 
             print(f"Your contact has been updated successfully with the following information: \n Number:{new_number}")
+        
         elif update_choice == "email":
             new_email = input("Please enter the updated email.")
-            find_contact[2] == new_email
+            find_contact[2] = new_email   
             print(f"Your contact has been updated successfully with the following information: \n Email:{new_email}")
+        
         elif update_choice == "zipcode":
             new_zipcode = input("Please enter the updated zipcode.")
-            find_contact[3] == new_zipcode
+            find_contact[3] = new_zipcode   
             print(f"Your contact has been updated successfully with the following information: \n Zipcode:{new_zipcode}")
+        
         else:
             sys.exit() 
-        """
+        self.save()
     
     
     def sort_contacts(self):
@@ -293,7 +291,7 @@ def main(filename):
         
     if functionality == "6":
         update = input("Please enter the name of the contact you wish to update \n")
-        #ContactBooks.update_contact(update)
+        ContactBooks.update_contact(update)
         
     if functionality == "7":
         ContactBooks.sort_contacts()
