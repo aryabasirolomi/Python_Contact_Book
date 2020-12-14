@@ -127,33 +127,33 @@ class ContactBook():
         Args:
             name(str): the name of the contact you want to update (firstname, lastname)
         """
-        update_choice = input("What part of the contact would you like to modify? Enter name, number, email, or zipcode.")
-        find_contact = pull_one_contact(name)
-        
+        update_choice = input("What part of the contact would you like to modify? Enter name, number, email, or zipcode. ")
+        find_contact = self.pull_one_contact(name)
+    
         if update_choice == "name":
             new_name = input("Please enter the updated name as firstname, lastname.")
             find_contact[0] = new_name   
             print(f"Your contact has been updated successfully with the following information: \n Name: {new_name}")
-        
+    
         elif update_choice == "number":
             new_number = input("Please enter the updated number.")
             find_contact[1] = new_number 
-            print(f"Your contact has been updated successfully with the following information: \n Number:{new_number}")
-        
+            print(f"Your contact has been updated successfully with the following information: \n Number: {new_number}")
+    
         elif update_choice == "email":
             new_email = input("Please enter the updated email.")
             find_contact[2] = new_email   
-            print(f"Your contact has been updated successfully with the following information: \n Email:{new_email}")
-        
+            print(f"Your contact has been updated successfully with the following information: \n Email: {new_email}")
+    
         elif update_choice == "zipcode":
             new_zipcode = input("Please enter the updated zipcode.")
             find_contact[3] = new_zipcode   
-            print(f"Your contact has been updated successfully with the following information: \n Zipcode:{new_zipcode}")
-        
+            print(f"Your contact has been updated successfully with the following information: \n Zipcode: {new_zipcode}")
+    
         else:
             sys.exit() 
         self.save()
-    
+
     
     def sort_contacts(self):
         """ Sorts the contact book by the name or zipcode of the contacts
