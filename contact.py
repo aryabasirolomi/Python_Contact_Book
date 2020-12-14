@@ -2,7 +2,7 @@ import smtplib, ssl
 import getpass
 import sys
 from argparse import ArgumentParser
-#print all, save, add_contact, remove_contact, pull_one_contact, sort_contacts
+
 class ContactBook():
     """ This class creates a contact book, and allows you to manage it
     
@@ -15,9 +15,9 @@ class ContactBook():
     def __init__(self, filename):
         self.file = filename
         self.contacts = []
-        with open(self.file, 'r', encoding='utf-8') as self.contacts_file:
-            for line in self.contacts_file.readlines():
-                self.contacts.append(line.split(','))
+        self.contacts_file = open(self.file, 'r', encoding='utf-8') 
+        for line in self.contacts_file.readlines():
+            self.contacts.append(line.strip("\n").split(','))
        
         
     def print_all(self):
@@ -30,17 +30,19 @@ class ContactBook():
             Every item in contact book in a dict format 
         """
         with open(self.file, 'r', encoding='utf-8') as self.contacts_file:
-            print(self.contacts_file.read())
+            print(self.contacts_file.readlines())
         
     
     
     def save(self):
         """ This method updates the file with any changes made locally."""
-        with open(self.file, 'a', encoding='utf-8') as self.contacts_file:
+        with open(self.file, 'w', encoding='utf-8') as self.contacts_file:
+            self.contacts_file.seek(0)
             for line in self.contacts:
+                self.contacts_file.write(",".join(line))
                 self.contacts_file.write("\n")
-                self.contacts_file.write(str(line))
-                  
+            self.contacts_file.truncate()
+        self.contacts_file.close()
        
     def add_contact(self, name, number, email, zipcode):
         """ Creates and adds a contact.
@@ -93,7 +95,7 @@ class ContactBook():
         Returns:
             A list of the five most recently deleted contacts.
         """
-        pass
+        print(self.contacts)
     
     
     def pull_one_contact(self, name):
@@ -118,7 +120,7 @@ class ContactBook():
                 zipcode = x[3]
                 contact = [contact_name, number, email, zipcode]
                 print(contact)
-        return contact
+        return contact, self.contacts.index(x)
         
         
     def update_contact(self,name):
@@ -128,26 +130,26 @@ class ContactBook():
             name(str): the name of the contact you want to update (firstname, lastname)
         """
         update_choice = input("What part of the contact would you like to modify? Enter name, number, email, or zipcode. ")
-        find_contact = self.pull_one_contact(name)
+        find_contact = self.pull_one_contact(name)[1]
     
         if update_choice == "name":
-            new_name = input("Please enter the updated name as firstname, lastname.")
-            find_contact[0] = new_name   
+            new_name = input("Please enter the updated name as firstname, lastname: ")
+            self.contacts[find_contact][0] = new_name
             print(f"Your contact has been updated successfully with the following information: \n Name: {new_name}")
     
         elif update_choice == "number":
-            new_number = input("Please enter the updated number.")
-            find_contact[1] = new_number 
+            new_number = input("Please enter the updated number: ")
+            self.contacts[find_contact][1] = new_number
             print(f"Your contact has been updated successfully with the following information: \n Number: {new_number}")
     
         elif update_choice == "email":
-            new_email = input("Please enter the updated email.")
-            find_contact[2] = new_email   
+            new_email = input("Please enter the updated email: ")  
+            self.contacts[find_contact][2] = new_email
             print(f"Your contact has been updated successfully with the following information: \n Email: {new_email}")
     
         elif update_choice == "zipcode":
-            new_zipcode = input("Please enter the updated zipcode.")
-            find_contact[3] = new_zipcode   
+            new_zipcode = input("Please enter the updated zipcode: ")
+            self.contacts[find_contact][3] = new_zipcode
             print(f"Your contact has been updated successfully with the following information: \n Zipcode: {new_zipcode}")
     
         else:
@@ -199,7 +201,7 @@ class ContactBook():
         """
         your_email = input('What is your email?')
         your_password = getpass.getpass(prompt='What is your password? (case-sensitive')
-        contact = self.pull_one_contact(name)
+        contact = self.pull_one_contact(name)[0]
         email_host = your_email.lower().split('@')
         server_data =  [
                        ('outlook.com', 'smtp-mail.outlook.com', 587),
