@@ -188,52 +188,39 @@ class ContactBook():
                 print(x)
     
     
-    def share_contact(self, sender_email, name):
-        """ Uses simple mail trasnfer protocol(SMTP) to send one contact to another person by email.
-        Uses pull one contact method to decide what to send
+    def share_contact(self, name, sender_email):
+        """ Uses simple mail trasnfer protocol(SMTP) to send one contact to 
+        another person by email, using the pull one contact method.
         
         Args:
             email(str): The email address you are sending the contact to.
             name(str): the name of the contact you want to share.
             
-        Raises:
-            A ValueError if the senders username or password is incorrect
         """
-        your_email = input('What is your email?')
-        your_password = getpass.getpass(prompt='What is your password? (case-sensitive')
         contact = self.pull_one_contact(name)[0]
-        email_host = your_email.lower().split('@')
-        server_data =  [
-                       ('outlook.com', 'smtp-mail.outlook.com', 587),
-                       ('gmail.com', 'smtp.gmail.com', 465),
-                       ('yahoo.com', 'smtp.mail.yahoo.com', 465),
-                       ('icloud.com', 'imap.mail.me.com', 993),
-                       ('aol.com', 'smtp.aol.com', 25),
-                       ('umd.edu', 'smtp.cs.umd.edu', 587),
-                       ('hotmail.com', 'smtp.live.com', 25)
-                       ]
-       
-        host_list = [str(x[1]) for x in server_data if x[0] == email_host[1]]
-        port_list = [int(x[2]) for x in server_data if x[0] == email_host[1]]
-        host = host_list[0]
-        port = port_list[0]
-
-        message =f"""\
-            Subject: New shared contact!
             
-            {contact}"""
+        from_email = "share.contact326@gmail.com"
+        from_password = "INST326Final" 
+        the_name = contact[0]
+        number = contact[1]
+        email = contact[2]
+        zipcode = contact[3]
+        
+        message = f"""Subject:New shared contact! \n
+        Name: {the_name},\n 
+        Number: {number},\n
+        Email: {email},\n
+        Zip Code: {zipcode} 
+        """ 
+            
         context = ssl.create_default_context()
-        with smtplib.SMTP_SSL(host=host, port=port, context=context) as server:
-            while True:
-                try:
-                    server.login(your_email, your_password)
-                except ValueError:
-                    print('Your email or password is incorrect, please try again')
-                    break
-            server.sendmail(sender_email, your_email, message)
-            server.close()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            #server.starttls(context=context)
+            server.login(from_email, from_password)
+            server.sendmail(from_email, sender_email, message)
+            print(f"""The contact for {name} has been sent to {sender_email}.\n
+                  They may have to check their junk folder.""")
             
-
     def favorites(self, name):
         """ Creates a new list of your 5 favorite contacts. To add a contact after 5, you must
         delete an old contact using remove_contact() first, then adds the contact.
@@ -262,13 +249,14 @@ class ContactBook():
     
        
 def main(filename):
-    functionality = input("""What would you like to do: Enter 1 for printing all of your contacts,
+    functionality = input("""What would you like to do: 
+                          Enter 1 for printing all of your contacts,
                           Enter 2 for adding a new contact,
                           Enter 3 for removing a contact,
                           Enter 4 to see your past 5 deleted contacts,
                           Enter 5 to see one contact's info,
                           Enter 6 to update a contact,
-                          Enter 7 to view your contacts sorted by either Name or Zipcode,
+                          Enter 7 to view your contacts sorted by Name or Zipcode,
                           Enter 8 to share a contact,
                           Enter 9 to view or add to your favorites \n""")
     ContactBooks = ContactBook(filename)
@@ -299,9 +287,11 @@ def main(filename):
         ContactBooks.sort_contacts()
         
     if functionality == "8":
-        info = input("Enter the name of the contact you wish to share, and the email you are sending it to in this format: name,email \n")
-        info_split = info.split()
-        ContactBooks.share_contact(info_split[0], info_split[1])
+        info = input("""Enter the name of the contact you wish to share, and 
+                     the email you are sending it to in this format: 
+                     firstname lastname,email \n""")
+        info_split = info.split(",")
+        ContactBooks.share_contact(str(info_split[0]), str(info_split[1]))
         
     if functionality == "9":
         info = input("Enter the name of the contact you want to add to your favorites, if there is none type None \n")
