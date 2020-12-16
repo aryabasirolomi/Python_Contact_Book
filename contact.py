@@ -55,6 +55,8 @@ class ContactBook():
             
         Side Effects:
             Updates self.contact
+            Prints a message containing the new contact information that was
+            added to the contact book
             
         """
         
@@ -73,6 +75,8 @@ class ContactBook():
             
         Side Effects:
             Updates self.contact
+            Prints a message containing the name of the contact that was removed 
+            from the file
             
         Raises:
             ValueError: ValueError raises if contact does not exist
@@ -92,10 +96,10 @@ class ContactBook():
         """ Holds the five most recent deleted contacts, which can be used for
         reference in case of an accidental deletion.
             
-        Returns:
-            A list of the five most recently deleted contacts.
+        Side Effects:
+            Prints a list of the five most recent deleted contacts
         """
-        print(self.contacts)
+        pass
     
     
     def pull_one_contact(self, name):
@@ -104,10 +108,9 @@ class ContactBook():
         Args: 
             name(str): the name of the contact you want pulled (firstname, lastname)
             
-        Returns:
+        Side Effects:
             contact(list): returns a contact with name,
             number, email, and zipcode
-             
         Raises:
             ValueError: ValueError raises if contact does not exist
         """
@@ -128,6 +131,9 @@ class ContactBook():
         
         Args:
             name(str): the name of the contact you want to update (firstname, lastname)
+            
+        Side Effects:
+            Prints a message containing the updated information
         """
         update_choice = input("What part of the contact would you like to modify? Enter name, number, email, or zipcode. ")
         find_contact = self.pull_one_contact(name)[1]
@@ -159,10 +165,10 @@ class ContactBook():
     
     def sort_contacts(self):
         """ Sorts the contact book by the name or zipcode of the contacts
-            and displays the contact book in ascending or descending order.
+            and displays the contact book in ascending or descending order
             
-        Returns:
-            A list of sorted contacts.
+        Side Effects:
+            Prints a list of sorted contacts
         """
         method = input("Enter 'name' to sort by name or 'zipcode' to sort by zipcode: ")
         method_l = method.lower()
@@ -228,8 +234,8 @@ class ContactBook():
         Args:
             name(str): The name of the contact you want to add to your favorites.
             
-        Returns:
-            A list of 5 contacts that are indicated to be the favorites
+        Side Effects:
+            Prints a list of 5 contacts that are indicated to be the favorites
         """
         favorites = []
         if name == "None":
@@ -301,7 +307,8 @@ def main(filename):
 def parse_args(arglist):
     """ Parse command-line arguments. 
         Args:
-            arglist (list of str): list of command-line arguments.
+            arglist (list of str): list of command-line arguments
+            
         Returns:
             namespace: the parsed arguments (see argparse documentation for
             more information)
