@@ -26,8 +26,8 @@ class ContactBook():
         Args:
             filename(str): path to a file containing current contacts
             
-        Returns:
-            Every item in contact book in a dict format 
+        Side Effects:
+            Prints all contents in the contacts file
         """
         with open(self.file, 'r', encoding='utf-8') as self.contacts_file:
             print(self.contacts_file.readlines())
@@ -54,7 +54,7 @@ class ContactBook():
             zipcode(int): the zipcode of a contact (ZZZZZ)
             
         Side Effects:
-            Updates self.contact.
+            Updates self.contact
             
         """
         
