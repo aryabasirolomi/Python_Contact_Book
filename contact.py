@@ -240,36 +240,7 @@ class ContactBook():
             server.sendmail(from_email, sender_email, message)
             print(f"""The contact for {name} has been sent to {sender_email}.\n
                   They may have to check their junk folder.""")
-            
-    def favorites(self, name):
-        """ Creates a new list of your 5 favorite contacts. To add a contact 
-        after 5, you must delete an old contact using remove_contact() first, 
-        then adds the contact.
-        
-        Args:
-            name(str): The name of the contact you want to add to your favorites.
-            
-        Side Effects:
-            Prints a list of 5 contacts that are indicated to be the favorites
-        """
-        favorites = []
-        if name == "None":
-            for x in favorites:
-                print(favorites)
-        if len(favorites) <= 5:
-            favorites.append(self.pull_one_contact(name))
-        if len(favorites) >= 5:
-            answer = input("""You can only have a maximum of 5 favorites. If you
-                    would like to remove a contact, enter: yes""")
-            if answer == "yes":
-                print(favorites)
-                remove = input("""Please enter the name of the contact you would
-                    like to remove""")
-                for x in favorites:
-                    for y in x:
-                        if y == remove:
-                            favorites.pop(remove)
-    
+               
        
 def main(filename):
     functionality = input("""What would you like to do: 
