@@ -8,10 +8,4 @@ References
 
 Aggarwal, Nikhil. “Writing to File in Python.” GeeksforGeeks, 25 Nov. 2019, www.geeksforgeeks.org/writing-to-file-in-python/. 
 
-This website was used when writing the save method and deciding how to open the file. This brief article detailed how to write, read, and append to a file. The reading detailed how write to a file which was needed for the add_contact, remove_contact, and update_contact methods. This helped in deciding how we would edit information contained in the file used to run the program. The 
-
-“Temporary Directories and Files.” Temporary Directories and Files - Pytest Documentation, docs.pytest.org/en/latest/tmpdir.html. 
-
-
-“Writing a Pytest Function to Check Outputting to a File in Python?” Stack Overflow, 1 Jan. 2013, stackoverflow.com/questions/20531072/writing-a-pytest-function-to-check-outputting-to-a-file-in-python. 
-
+This website was used when writing the save method and deciding how to open the file. This brief article detailed how to write, read, and append to a file. The reading detailed how write to a file which was needed for the add_contact, remove_contact, and update_contact methods. This helped in deciding how we would edit data in the file and data used to run the program. The description of writing and appending to a file were the main components used when writing the code and in the final method used. The description detailed where the handler starts and the difference and benefits in writing and appending when compared to each other. 
