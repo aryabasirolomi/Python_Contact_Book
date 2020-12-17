@@ -7,8 +7,10 @@ class ContactBook():
     """ This class creates a contact book, and allows you to manage it
     
     Attributes:
-        contacts_file(str): contacts_file(file): the file of contact books (name,number,email,zipcode) all in string format
-        contacts(list): all of the contacts, pulled from the file for local changes all in string format
+        contacts_file(str): contacts_file(file): the file of contact books 
+        (name,number,email,zipcode) all in string format
+        contacts(list): all of the contacts, pulled from the file for local 
+        changes all in string format
         file(str): the path to the file containing contacts
     """
     
@@ -87,7 +89,8 @@ class ContactBook():
             if line.lower().startswith(name.lower()):
                 self.contacts.pop(count)
             else:
-                raise ValueError("This contact does not exist. Please try again.")
+                raise ValueError("This contact does not exist. Please try \
+                    again.")
         self.save()
         print(f"Thank you {name} has been removed from your contact book.")
         
@@ -106,7 +109,8 @@ class ContactBook():
         """ Takes full name as input and returns the one contact
         
         Args: 
-            name(str): the name of the contact you want pulled (firstname, lastname)
+            name(str): the name of the contact you want pulled
+            (firstname, lastname)
             
         Side Effects:
             contact(list): returns a contact with name,
@@ -130,33 +134,40 @@ class ContactBook():
         """ Updates an existing contact
         
         Args:
-            name(str): the name of the contact you want to update (firstname, lastname)
+            name(str): the name of the contact you want to update 
+            (firstname, lastname)
             
         Side Effects:
             Prints a message containing the updated information
         """
-        update_choice = input("What part of the contact would you like to modify? Enter name, number, email, or zipcode. ")
+        update_choice = input("What part of the contact would you like to \
+                            modify? Enter name, number, email, or zipcode. ")
         find_contact = self.pull_one_contact(name)[1]
     
         if update_choice == "name":
-            new_name = input("Please enter the updated name as firstname, lastname: ")
+            new_name = input("Please enter the updated name as \
+                firstname, lastname: ")
             self.contacts[find_contact][0] = new_name
-            print(f"Your contact has been updated successfully with the following information: \n Name: {new_name}")
+            print(f"Your contact has been updated successfully with the \
+                following information: \n Name: {new_name}")
     
         elif update_choice == "number":
             new_number = input("Please enter the updated number: ")
             self.contacts[find_contact][1] = new_number
-            print(f"Your contact has been updated successfully with the following information: \n Number: {new_number}")
+            print(f"Your contact has been updated successfully with the \
+                following information: \n Number: {new_number}")
     
         elif update_choice == "email":
             new_email = input("Please enter the updated email: ")  
             self.contacts[find_contact][2] = new_email
-            print(f"Your contact has been updated successfully with the following information: \n Email: {new_email}")
+            print(f"Your contact has been updated successfully with the \
+                following information: \n Email: {new_email}")
     
         elif update_choice == "zipcode":
             new_zipcode = input("Please enter the updated zipcode: ")
             self.contacts[find_contact][3] = new_zipcode
-            print(f"Your contact has been updated successfully with the following information: \n Zipcode: {new_zipcode}")
+            print(f"Your contact has been updated successfully with the \
+                following information: \n Zipcode: {new_zipcode}")
     
         else:
             sys.exit() 
@@ -170,9 +181,11 @@ class ContactBook():
         Side Effects:
             Prints a list of sorted contacts
         """
-        method = input("Enter 'name' to sort by name or 'zipcode' to sort by zipcode: ")
+        method = input("Enter 'name' to sort by name or 'zipcode' to \
+            sort by zipcode: ")
         method_l = method.lower()
-        order = input("Type 'asc' to display in ascending order or 'desc' to display in descending order: ")
+        order = input("Type 'asc' to display in ascending order or 'desc' to \
+            display in descending order: ")
         order_l = order.lower()
         
         if method_l == 'name' and order_l == 'asc':
@@ -189,7 +202,8 @@ class ContactBook():
             for x in zipcode_sort:
                 print(x)
         elif method_l == 'zipcode' and order_l == 'desc':
-            zipcode_sort = sorted(self.contacts, key=lambda y: y[3], reverse=True)
+            zipcode_sort = sorted(self.contacts, key=lambda y: y[3], \
+                reverse=True)
             for x in zipcode_sort:
                 print(x)
     
@@ -228,8 +242,9 @@ class ContactBook():
                   They may have to check their junk folder.""")
             
     def favorites(self, name):
-        """ Creates a new list of your 5 favorite contacts. To add a contact after 5, you must
-        delete an old contact using remove_contact() first, then adds the contact.
+        """ Creates a new list of your 5 favorite contacts. To add a contact 
+        after 5, you must delete an old contact using remove_contact() first, 
+        then adds the contact.
         
         Args:
             name(str): The name of the contact you want to add to your favorites.
@@ -244,10 +259,12 @@ class ContactBook():
         if len(favorites) <= 5:
             favorites.append(self.pull_one_contact(name))
         if len(favorites) >= 5:
-            answer = input("You can only have a maximum of 5 favorites. If you would like to remove a contact, enter: yes")
+            answer = input("""You can only have a maximum of 5 favorites. If you
+                    would like to remove a contact, enter: yes""")
             if answer == "yes":
                 print(favorites)
-                remove = input("Please enter the name of the contact you would like to remove")
+                remove = input("""Please enter the name of the contact you would
+                    like to remove""")
                 for x in favorites:
                     for y in x:
                         if y == remove:
@@ -270,23 +287,25 @@ def main(filename):
         ContactBooks.print_all()
         
     if functionality == "2":
-        info = input("Please enter your the contact info in this format: name, number, email, zipcode \n")
+        info = input("""Enter your the contact info in this format: name, number,
+            email, zipcode \n""")
         split_info = info.split(",")
-        ContactBooks.add_contact(split_info[0], split_info[1], split_info[2], split_info[3])
+        ContactBooks.add_contact(split_info[0], split_info[1], split_info[2], 
+                                 split_info[3])
         
     if functionality == "3":
-        remove = input("Please enter the name of the contact you wish to remove \n")
+        remove = input("Enter the name of the contact you wish to remove: ")
         ContactBooks.remove_contact(remove)
         
     if functionality == "4":
         ContactBooks.deleted_contacts()
         
     if functionality == "5":
-        see = input("Please enter the full name of the contact you wish to see \n")
+        see = input("Enter the full name of the contact you wish to see: ")
         ContactBooks.pull_one_contact(see)
         
     if functionality == "6":
-        update = input("Please enter the name of the contact you wish to update \n")
+        update = input("Enter the name of the contact you wish to update: ")
         ContactBooks.update_contact(update)
         
     if functionality == "7":
@@ -294,13 +313,14 @@ def main(filename):
         
     if functionality == "8":
         info = input("""Enter the name of the contact you wish to share, and 
-                     the email you are sending it to in this format: 
-                     firstname lastname,email \n""")
+        the email you are sending it to in this format: firstname, lastname,
+        email \n""")
         info_split = info.split(",")
         ContactBooks.share_contact(str(info_split[0]), str(info_split[1]))
-        
+         
     if functionality == "9":
-        info = input("Enter the name of the contact you want to add to your favorites, if there is none type None \n")
+        info = input("""Enter the name of the contact you want to add to your 
+        favorites, if there is none type None: """)
         ContactBooks.favorites(info)
          
     
@@ -314,7 +334,8 @@ def parse_args(arglist):
             more information)
     """
     parser = ArgumentParser()
-    parser.add_argument("filename", help = "The path to a file containing contacts")
+    parser.add_argument("filename", help = """The path to a file containing 
+                        contacts""")
 
     return parser.parse_args(arglist)
 
