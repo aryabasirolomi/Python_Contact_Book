@@ -2,6 +2,7 @@ import smtplib, ssl
 import getpass
 import sys
 from argparse import ArgumentParser
+import shelve
 
 class ContactBook():
     """ This class creates a contact book, and allows you to manage it
@@ -12,11 +13,9 @@ class ContactBook():
         contacts(list): all of the contacts, pulled from the file for local 
         changes all in string format
         file(str): the path to the file containing contacts
-        hold(list): list that will hold removed contacts
     """
     
     def __init__(self, filename):
-        self.hold = []
         self.file = filename
         self.contacts = []
         self.contacts_file = open(self.file, 'r', encoding='utf-8') 
@@ -91,29 +90,14 @@ class ContactBook():
             match = line[0]
             if match == name:
                 res = self.contacts.index(line)
-                remove = self.contacts.pop(res)
-                self.hold.append(remove)
-                remove
+                self.contacts.pop(res)
                 self.save()
                 print(f"Thank you! '{name}' has been removed from your contact"
                         +" book.")
+                
             # else:
             #     raise ValueError("This contact does not exist. Please try" +
             #         " again.")
-       
-        
-        
-
-    def deleted_contacts(self):
-        """ Holds the five most recent deleted contacts, which can be used for
-        reference in case of an accidental deletion.
-            
-        Side Effects:
-            Prints a list of the five most recent deleted contacts
-        """
-        print("Here is a list of your 5 most recently deleted contacts: ")
-        for x in self.hold:
-            print(x)
         
     
     
@@ -259,12 +243,10 @@ def main(filename):
                           Enter 1 for printing all of your contacts,
                           Enter 2 for adding a new contact,
                           Enter 3 for removing a contact,
-                          Enter 4 to see your past 5 deleted contacts,
-                          Enter 5 to see one contact's info,
-                          Enter 6 to update a contact,
-                          Enter 7 to view your contacts sorted by Name or Zipcode,
-                          Enter 8 to share a contact,
-                          Enter 9 to view or add to your favorites \n""")
+                          Enter 4 to see one contact's info,
+                          Enter 5 to update a contact,
+                          Enter 6 to view your contacts sorted by Name or Zipcode,
+                          Enter 7 to share a contact \n""")
     ContactBooks = ContactBook(filename)
     if functionality == "1":
         ContactBooks.print_all()
@@ -281,30 +263,23 @@ def main(filename):
         ContactBooks.remove_contact(remove)
         
     if functionality == "4":
-        ContactBooks.deleted_contacts()
-        
-    if functionality == "5":
         see = input("Enter the full name of the contact you wish to see: ")
         ContactBooks.pull_one_contact(see)
         
-    if functionality == "6":
+    if functionality == "5":
         update = input("Enter the name of the contact you wish to update: ")
         ContactBooks.update_contact(update)
         
-    if functionality == "7":
+    if functionality == "6":
         ContactBooks.sort_contacts()
         
-    if functionality == "8":
+    if functionality == "7":
         info = input("""Enter the name of the contact you wish to share, and 
         the email you are sending it to in this format: firstname, lastname,
         email \n""")
         info_split = info.split(",")
         ContactBooks.share_contact(str(info_split[0]), str(info_split[1]))
-         
-    # if functionality == "9":
-    #     info = input("""Enter the name of the contact you want to add to your 
-    #     favorites, if there is none type None: """)
-    #     ContactBooks.favorites(info)
+
          
     
 def parse_args(arglist):
