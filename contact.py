@@ -123,7 +123,7 @@ class ContactBook():
                 zipcode = x[3]
                 contact = [contact_name, number, email, zipcode]
                 print(contact)
-        return contact, self.contacts.index(x)
+                return contact, self.contacts.index(x)
         
         
     def update_contact(self,name):
@@ -139,31 +139,31 @@ class ContactBook():
         update_choice = input("What part of the contact would you like to"+
                             " modify? Enter name, number, email, or zipcode. ")
         find_contact = self.pull_one_contact(name)[1]
-    
+        
         if update_choice == "name":
             new_name = input("Please enter the updated name as"+ 
                 " firstname, lastname: ")
             self.contacts[find_contact][0] = new_name
             print(f"Your contact has been updated successfully with the"+ 
-                " following information: \n Name: {new_name}")
+                f" following information: \n Name: {new_name}")
     
         elif update_choice == "number":
             new_number = input("Please enter the updated number: ")
             self.contacts[find_contact][1] = new_number
             print(f"Your contact has been updated successfully with the"+ 
-                " following information: \n Number: {new_number}")
+                f" following information: \n Number: {new_number}")
     
         elif update_choice == "email":
             new_email = input("Please enter the updated email: ")  
             self.contacts[find_contact][2] = new_email
             print(f"Your contact has been updated successfully with the"+ 
-                " following information: \n Email: {new_email}")
+                f" following information: \n Email: {new_email}")
     
         elif update_choice == "zipcode":
             new_zipcode = input("Please enter the updated zipcode: ")
             self.contacts[find_contact][3] = new_zipcode
             print(f"Your contact has been updated successfully with the"+ 
-                " following information: \n Zipcode: {new_zipcode}")
+                f" following information: \n Zipcode: {new_zipcode}")
     
         else:
             sys.exit() 
