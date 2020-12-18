@@ -12,9 +12,11 @@ class ContactBook():
         contacts(list): all of the contacts, pulled from the file for local 
         changes all in string format
         file(str): the path to the file containing contacts
+        hold(list): list that will hold removed contacts
     """
     
     def __init__(self, filename):
+        self.hold = []
         self.file = filename
         self.contacts = []
         self.contacts_file = open(self.file, 'r', encoding='utf-8') 
@@ -32,8 +34,8 @@ class ContactBook():
             Prints all contents in the contacts file
         """
         with open(self.file, 'r', encoding='utf-8') as self.contacts_file:
-            print(self.contacts_file.readlines())
-        
+            for i in self.contacts_file.readlines():
+                print(i)
     
     
     def save(self):
@@ -86,13 +88,20 @@ class ContactBook():
         #with open(self.file, 'a', encoding='utf-8') as self.contacts_file:
             #read in file
         for line in self.contacts:
-            if line.lower().startswith(name.lower()):
-                self.contacts.pop(count)
-            else:
-                raise ValueError("This contact does not exist. Please try \
-                    again.")
-        self.save()
-        print(f"Thank you {name} has been removed from your contact book.")
+            match = line[0]
+            if match == name:
+                res = self.contacts.index(line)
+                remove = self.contacts.pop(res)
+                self.hold.append(remove)
+                remove
+                self.save()
+                print(f"Thank you! '{name}' has been removed from your contact"
+                        +" book.")
+            # else:
+            #     raise ValueError("This contact does not exist. Please try" +
+            #         " again.")
+       
+        
         
 
     def deleted_contacts(self):
@@ -102,7 +111,10 @@ class ContactBook():
         Side Effects:
             Prints a list of the five most recent deleted contacts
         """
-        pass
+        print("Here is a list of your 5 most recently deleted contacts: ")
+        for x in self.hold:
+            print(x)
+        
     
     
     def pull_one_contact(self, name):
@@ -140,34 +152,34 @@ class ContactBook():
         Side Effects:
             Prints a message containing the updated information
         """
-        update_choice = input("What part of the contact would you like to \
-                            modify? Enter name, number, email, or zipcode. ")
+        update_choice = input("What part of the contact would you like to"+
+                            " modify? Enter name, number, email, or zipcode. ")
         find_contact = self.pull_one_contact(name)[1]
     
         if update_choice == "name":
-            new_name = input("Please enter the updated name as \
-                firstname, lastname: ")
+            new_name = input("Please enter the updated name as"+ 
+                " firstname, lastname: ")
             self.contacts[find_contact][0] = new_name
-            print(f"Your contact has been updated successfully with the \
-                following information: \n Name: {new_name}")
+            print(f"Your contact has been updated successfully with the"+ 
+                " following information: \n Name: {new_name}")
     
         elif update_choice == "number":
             new_number = input("Please enter the updated number: ")
             self.contacts[find_contact][1] = new_number
-            print(f"Your contact has been updated successfully with the \
-                following information: \n Number: {new_number}")
+            print(f"Your contact has been updated successfully with the"+ 
+                " following information: \n Number: {new_number}")
     
         elif update_choice == "email":
             new_email = input("Please enter the updated email: ")  
             self.contacts[find_contact][2] = new_email
-            print(f"Your contact has been updated successfully with the \
-                following information: \n Email: {new_email}")
+            print(f"Your contact has been updated successfully with the"+ 
+                " following information: \n Email: {new_email}")
     
         elif update_choice == "zipcode":
             new_zipcode = input("Please enter the updated zipcode: ")
             self.contacts[find_contact][3] = new_zipcode
-            print(f"Your contact has been updated successfully with the \
-                following information: \n Zipcode: {new_zipcode}")
+            print(f"Your contact has been updated successfully with the"+ 
+                " following information: \n Zipcode: {new_zipcode}")
     
         else:
             sys.exit() 
@@ -181,11 +193,11 @@ class ContactBook():
         Side Effects:
             Prints a list of sorted contacts
         """
-        method = input("Enter 'name' to sort by name or 'zipcode' to \
-            sort by zipcode: ")
+        method = input("Enter 'name' to sort by name or 'zipcode' to"+ 
+                " sort by zipcode: ")
         method_l = method.lower()
-        order = input("Type 'asc' to display in ascending order or 'desc' to \
-            display in descending order: ")
+        order = input("Type 'asc' to display in ascending order or 'desc' to"+ 
+                " display in descending order: ")
         order_l = order.lower()
         
         if method_l == 'name' and order_l == 'asc':
@@ -289,10 +301,10 @@ def main(filename):
         info_split = info.split(",")
         ContactBooks.share_contact(str(info_split[0]), str(info_split[1]))
          
-    if functionality == "9":
-        info = input("""Enter the name of the contact you want to add to your 
-        favorites, if there is none type None: """)
-        ContactBooks.favorites(info)
+    # if functionality == "9":
+    #     info = input("""Enter the name of the contact you want to add to your 
+    #     favorites, if there is none type None: """)
+    #     ContactBooks.favorites(info)
          
     
 def parse_args(arglist):
