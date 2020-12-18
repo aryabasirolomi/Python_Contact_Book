@@ -227,6 +227,10 @@ class ContactBook():
         Args:
             email(str): The email address you are sending the contact to.
             name(str): the name of the contact you want to share.
+        
+        Side Effects:
+            prints to the console the contact that is being shared, and a 
+            message once sharing is complete.
             
         """
         contact = self.pull_one_contact(name)[0]
