@@ -170,18 +170,15 @@ class ContactBook():
         self.save()
 
     
-    def sort_contacts(self):
+    def sort_contacts(self, method, order):
         """ Sorts the contact book by the name or zipcode of the contacts
             and displays the contact book in ascending or descending order
             
         Side Effects:
             Prints a list of sorted contacts
         """
-        method = input("Enter 'name' to sort by name or 'zipcode' to"+ 
-                " sort by zipcode: ")
+        
         method_l = method.lower()
-        order = input("Type 'asc' to display in ascending order or 'desc' to"+ 
-                " display in descending order: ")
         order_l = order.lower()
         
         if method_l == 'name' and order_l == 'asc':
@@ -275,7 +272,11 @@ def main(filename):
         ContactBooks.update_contact(update)
         
     if functionality == "6":
-        ContactBooks.sort_contacts()
+        method = input("Enter 'name' to sort by name or 'zipcode' to"+ 
+                " sort by zipcode: ")
+        order = input("Type 'asc' to display in ascending order or 'desc' to"+ 
+                " display in descending order: ")
+        ContactBooks.sort_contacts(method,order)
         
     if functionality == "7":
         info = input("""Enter the name of the contact you wish to share, and 
