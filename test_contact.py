@@ -15,7 +15,8 @@ def test_pull_one_contact():
                             ' 709-704-7126', ' mikeike@mikeike.com', ' 36110']
     assert not contact_1.pull_one_contact('David Dobrik')[0] == ['David Makers',
                             ' 603-520-6789', ' ddobrik83@gmail.com', ' 32452']
-    assert not contact_1.pull_one_contact('Kevin Malone')[0] == ['Nicholas Malone', 
+    assert not contact_1.pull_one_contact(
+        'Kevin Malone')[0] ==['Nicholas Malone', 
                         ' 864-432-4502', ' chilimountain@outlook.com', ' 87425']
 
 
