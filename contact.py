@@ -36,7 +36,11 @@ class ContactBook():
     
     
     def save(self):
-        """ This method updates the file with any changes made locally."""
+        """ This method updates the file with any changes made locally.
+        
+        Side Effect:
+            Updates self.contacts_file
+        """
         with open(self.file, 'w', encoding='utf-8') as self.contacts_file:
             self.contacts_file.seek(0)
             for line in self.contacts:
@@ -78,12 +82,8 @@ class ContactBook():
             Updates self.contact
             Prints a message containing the name of the contact that was removed 
             from the file
-            
-        Raises:
-            ValueError: ValueError raises if contact does not exist
         """
-        #with open(self.file, 'a', encoding='utf-8') as self.contacts_file:
-            #read in file
+        
         for line in self.contacts:
             match = line[0]
             if match == name:
@@ -92,10 +92,6 @@ class ContactBook():
                 self.save()
                 print(f"Thank you! '{name}' has been removed from your contact"
                         +" book.")
-                
-            # else:
-            #     raise ValueError("This contact does not exist. Please try" +
-            #         " again.")
         
     
     
@@ -107,10 +103,13 @@ class ContactBook():
             (firstname, lastname)
             
         Side Effects:
-            contact(list): returns a contact with name,
-            number, email, and zipcode
-        Raises:
-            ValueError: ValueError raises if contact does not exist
+            Prints a contact with name, number, email, and zipcode
+        
+        Returns:
+            tuple: returns a tuple containing the contact as a list 
+                    and the indexed position of the contact.
+
+
         """
         contact = []
         for x in self.contacts:
@@ -129,7 +128,7 @@ class ContactBook():
         
         Args:
             name(str): the name of the contact you want to update 
-            (firstname, lastname)
+            (firstname lastname)
             
         Side Effects:
             Prints a message containing the updated information
@@ -140,7 +139,7 @@ class ContactBook():
         
         if update_choice == "name":
             new_name = input("Please enter the updated name as"+ 
-                " firstname, lastname: ")
+                " firstname lastname: ")
             self.contacts[find_contact][0] = new_name
             print(f"Your contact has been updated successfully with the"+ 
                 f" following information: \n Name: {new_name}")
@@ -172,8 +171,15 @@ class ContactBook():
         """ Sorts the contact book by the name or zipcode of the contacts
             and displays the contact book in ascending or descending order
             
+        Args:
+            method(str): Dictates what aspect the list will be sorted by.
+            order(str): Dictates the order the list will be displayed in.
+            
         Side Effects:
-            Prints a list of sorted contacts
+            Prints a list of sorted contacts.
+        
+        Returns:
+            A list of sorted contacts.
         """
         
         method_l = method.lower()
@@ -183,29 +189,31 @@ class ContactBook():
             name_sort = sorted(self.contacts, key=lambda x: x[0])
             for x in name_sort:
                 print(x)
+            return name_sort
         elif method_l == 'name' and order_l == 'desc':
             name_sort = sorted(self.contacts, key=lambda x: x[0], reverse=True)
             for x in name_sort:
                 print(x)
+            return name_sort  
         
         elif method_l == 'zipcode' and order_l == 'asc':
-            zipcode_sort = sorted(self.contacts, key=lambda y: y[3])
-            for x in zipcode_sort:
+            zip_sort = sorted(self.contacts, key=lambda y: y[3])
+            for x in zip_sort:
                 print(x)
+            return zip_sort
         elif method_l == 'zipcode' and order_l == 'desc':
-            zipcode_sort = sorted(self.contacts, key=lambda y: y[3], \
-                reverse=True)
-            for x in zipcode_sort:
+            zip_sort = sorted(self.contacts, key=lambda y: y[3],reverse=True)
+            for x in zip_sort:
                 print(x)
-    
+            return zip_sort
     
     def share_contact(self, name, sender_email):
         """ Uses simple mail trasnfer protocol(SMTP) to send one contact to 
         another person by email, using the pull one contact method.
         
         Args:
-            email(str): The email address you are sending the contact to.
             name(str): the name of the contact you want to share.
+            sender_email(str): The email address you are sending the contact to.
         
         Side Effects:
             prints to the console the contact that is being shared, and a 
@@ -230,7 +238,6 @@ class ContactBook():
             
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-            #server.starttls(context=context)
             server.login(from_email, from_password)
             server.sendmail(from_email, sender_email, message)
             print(f"""The contact for {name} has been sent to {sender_email}.\n
@@ -239,20 +246,20 @@ class ContactBook():
        
 def main(filename):
     functionality = input("""What would you like to do: 
-                          Enter 1 for printing all of your contacts,
-                          Enter 2 for adding a new contact,
-                          Enter 3 for removing a contact,
-                          Enter 4 to see one contact's info,
-                          Enter 5 to update a contact,
-                          Enter 6 to view your contacts sorted by Name or Zipcode,
-                          Enter 7 to share a contact \n""")
+                        Enter 1 for printing all of your contacts,
+                        Enter 2 for adding a new contact,
+                        Enter 3 for removing a contact,
+                        Enter 4 to see one contact's info,
+                        Enter 5 to update a contact,
+                        Enter 6 to view your contacts sorted by Name or Zipcode,
+                        Enter 7 to share a contact \n""")
     ContactBooks = ContactBook(filename)
     if functionality == "1":
         ContactBooks.print_all()
         
     if functionality == "2":
-        info = input("""Enter your the contact info in this format: name, number,
-            email, zipcode \n""")
+        info = input("Enter your the contact info in this format: name,"+
+                     " number, email, zipcode \n")
         split_info = info.split(",")
         ContactBooks.add_contact(split_info[0], split_info[1], split_info[2], 
                                  split_info[3])
@@ -278,7 +285,7 @@ def main(filename):
         
     if functionality == "7":
         info = input("""Enter the name of the contact you wish to share, and 
-        the email you are sending it to in this format: firstname, lastname,
+        the email you are sending it to in this format: firstname lastname,
         email \n""")
         info_split = info.split(",")
         ContactBooks.share_contact(str(info_split[0]), str(info_split[1]))
