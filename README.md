@@ -11,6 +11,11 @@ Aggarwal, Nikhil. “Writing to File in Python.” GeeksforGeeks, 25 Nov. 2019, 
 This website was used when writing the save method and deciding how to open the file. This brief article detailed how to write, read, and append to a file. The reading detailed how write to a file which was needed for the add_contact, remove_contact, and update_contact methods. This helped in deciding how we would edit data in the file and data used to run the program. The description of writing and appending to a file were the main components used when writing the code and in the final method used. The description detailed where the handler starts and the difference and benefits in writing and appending when compared to each other. 
 
 
-Real Python. “Sending Emails With Python.” Realpython.com, Real Python, 5 Dec. 2018, realpython.com/python-send-email/#yagmail.
+Real Python. “Sending Emails With Python.” Realpython.com, Real Python, 5 Dec. 2018, https://realpython.com/python-send-email/#getting-started.
 
 ‌This website was used to help under how Simple Mail Trasnfer Protocol was used. This article described how to import smtplib and ssl, and send an email from python. While reading the artile, This article emphasized that smtplib works in a very structured and unique way, but it nonetheless a powerful tool. This article was used to implement the share_contact method. 
+
+
+Bills, Aric. "In-class exercise: Sports results". 2020. https://umd.instructure.com/courses/1288445/assignments/5360675
+
+The test file from the sports exercise: "test_sports.py" was used to assist in the development of 'test_contact.py'. The main item used was all of the code associated with the unlink method, as the goal was to create a file to test our script, but we did not want the file to take up unnecessary room.

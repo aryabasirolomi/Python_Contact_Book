@@ -1,8 +1,6 @@
 import smtplib, ssl
-import getpass
 import sys
 from argparse import ArgumentParser
-import shelve
 
 class ContactBook():
     """ This class creates a contact book, and allows you to manage it
