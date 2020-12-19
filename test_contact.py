@@ -38,3 +38,44 @@ def test_add_contact():
     #with open ('contacts.txt', "r", encoding="utf-8") as f:
         #lines = f.readlines()
         #assert ['Justin Tucker, 410-922-7788, jtkicker@gmail.com, 21244'] in lines
+        
+def test_remove_contact():
+    """ Testing the remove contact method in contact.py when there is only 
+    one contact in the file
+    This block of code was modled after test_sports.py
+    """
+    try:
+        contact = """Steve Rogers, 240-606-0590, rogers@shield.com, 22146"""
+        filename = "TEMPORARY_TEST_FILE.txt"
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(contact)
+        cb = ContactBook(filename)
+        assert cb.remove_contact("Steve Rogers") == None
+    finally:
+        try:
+            Path(filename).unlink()
+        except:
+            pass
+
+def test_remove_contact1():
+    """Testing remove contact method in contact.py when there are
+    multiple contacts in the file
+    This block of code was modled after test_sports.py
+    """
+    try:
+        contact1 = """Steve Rog, 240-606-0590, rogers@shield.com, 22146
+                   Arya Basir, 240-354-2848, aryabasir2001@hotmail.com, 20866"""
+        filename1 = "TEMPORARY_TEST_FILE1.txt"
+        with open(filename1, "w+", encoding="utf-8") as f1:
+            f1.write(contact1)
+            cb1 = ContactBook(filename1)
+            cb1.remove_contact("Arya Basir") 
+            f2 = f1.read()
+        f2 = open(filename1)
+        assert "Steve Rog, 240-606-0590, rogers@shield.com, 22146" in f2.read() 
+        f2.close()
+    finally:
+        try:
+            Path(filename1).unlink()
+        except:
+            pass
