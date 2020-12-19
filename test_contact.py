@@ -7,16 +7,17 @@ from pathlib import Path
 def test_pull_one_contact():
     """Tests ContactBook.pull_one_contact method. """
     contact_1 = ContactBook('contacts.txt')
-    assert contact_1.pull_one_contact('Kanye West')[0]==['Kanye West', 
+    assert contact_1.pull_one_contact('Kanye West')[0] == ['Kanye West', 
                             ' 657-882-1340', ' kanye4prez@yahoo.com', ' 12345']
-    assert contact_1.pull_one_contact('Tony Stark')[0]==['Tony Stark', 
+    assert contact_1.pull_one_contact('Tony Stark')[0] == ['Tony Stark',
                             ' 212-970-4133', ' tonystark@gmail.com', ' 90265']
-    assert contact_1.pull_one_contact('Mike Ike')[0]==['Mike Ike', 
+    assert contact_1.pull_one_contact('Mike Ike')[0] == ['Mike Ike', 
                             ' 709-704-7126', ' mikeike@mikeike.com', ' 36110']
-    assert not contact_1.pull_one_contact('David Dobrik')[0]==['David Makers',
+    assert not contact_1.pull_one_contact('David Dobrik')[0] == ['David Makers',
                             ' 603-520-6789', ' ddobrik83@gmail.com', ' 32452']
-    assert not contact_1.pull_one_contact('Troy Barnes')[0]==['Troy Barnes', 
-                        ' 486-123-5991', ' troynabed@cc.edu', ' 99950']
+    assert not contact_1.pull_one_contact('Kevin Malone')[0] == ['Nicholas Malone', 
+                        ' 864-432-4502', ' chilimountain@outlook.com', ' 87425']
+
 
 def test_add_contact():
     """Tests ContactBook.add_contact method."""
